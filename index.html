@@ -3,70 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Andriane C. Santos - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Student Grade Portal - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <header>
-        <h1> Andriane C. Santos</h1>
-        <p>Aspiring Software Engineer and Cybersecurity & IT Student</p>
-    </header>
+<body class="login-page d-flex align-items-center justify-content-center min-vh-100">
 
-    <nav>
-        <ul>
-            <li><a href="#about">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <main>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>Hello! I am a 3rd-year Information Technology student passionate about web development, UI/UX design, and software engineering. I enjoy solving complex problems, building interactive web applications, and learning new technology stacks.</p>
-        </section>
-
-        <section id="skills">
-            <h2>Skills</h2>
-            <ul>
-                <li><strong>HTML & CSS:</strong> Structuring responsive, semantic, and visually appealing web pages.</li>
-                <li><strong>JavaScript:</strong> Adding interactivity, dynamic DOM manipulation, and basic logic.</li>
-                <li><strong>UI/UX Design:</strong> Wireframing, prototyping, and creating user-centered web layouts.</li>
-            </ul>
-        </section>
-
-        <section id="projects">
-            <h2>Projects</h2>
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card login-card shadow-lg" style="max-width: 400px; width: 100%;">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h2 class="mb-0 fw-bold">Student Portal</h2>
+                <p class="mb-0 small">Sign in to view your GPA, courses & grades</p>
+            </div>
             
-            <article>
-                <h3>Personal Portfolio Webpage</h3>
-                <p>A responsive portfolio website built with HTML and CSS showcasing my background, skills, and academic projects.</p>
-            </article>
+            <div class="card-body p-4">
+                <div id="loginFeedback"></div>
 
-            <article>
-                <h3>Task Tracker Application</h3>
-                <p>A simple web application designed to help users organize daily tasks with features like adding, editing, and marking items as complete.</p>
-            </article>
+                <form id="loginForm">
 
-            <article>
-                <h3>Interactive Quiz Game</h3>
-                <p>A web-based quiz game developed using JavaScript to handle user score tracking, question timers, and instant feedback.</p>
-            </article>
-        </section>
-    </main>
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-bold">Student ID / Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                        </div>
 
-    <aside>
-        <h3>Quick Facts</h3>
-        <p><strong>Favorite Quote:</strong> "Success is earned through patience, dedication, and hard work"</p>
-        <p><strong>Fun Fact / Hobby:</strong> I enjoy solving digital logic puzzles and tweaking custom keyboard builds in my free time.</p>
-    </aside>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+                        </div>
+                    </div>
 
-    <footer id="contact">
-        <p>&copy; 2026 Andriane C. Santos</p>
-        <p>Contact: <a href="mailto:santosanding1@gmail.com">santosanding1@gmail.com</a> | <a href="#">LinkedIn</a></p>
-        <p><small>Last updated: August 12, 2026</small></p>
-    </footer>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember Me</label>
+                    </div>
+
+                    <button type="button" class="btn btn-primary w-100 fw-bold py-2" id="loginBtn">Login</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <small class="text-muted">Demo Credentials: admin / password123</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
