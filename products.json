@@ -1,0 +1,42 @@
+[
+  {
+    "id": 101,
+    "name": "Laptop Pro",
+    "sku": "ELE-001",
+    "category": "Electronics",
+    "price": 45000,
+    "quantity": 12
+  },
+  {
+    "id": 102,
+    "name": "Wireless Mouse",
+    "sku": "ELE-002",
+    "category": "Electronics",
+    "price": 750,
+    "quantity": 3
+  },
+  {
+    "id": 103,
+    "name": "Office Chair",
+    "sku": "FUR-001",
+    "category": "Furniture",
+    "price": 3500,
+    "quantity": 0
+  },
+  {
+    "id": 104,
+    "name": "Wooden Desk",
+    "sku": "FUR-002",
+    "category": "Furniture",
+    "price": 8500,
+    "quantity": 6
+  },
+  {
+    "id": 105,
+    "name": "Notebook A5",
+    "sku": "STA-001",
+    "category": "Stationery",
+    "price": 120,
+    "quantity": 4
+  }
+]

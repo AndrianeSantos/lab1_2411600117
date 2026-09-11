@@ -1,108 +1,105 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication state
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn !== 'true') {
-        window.location.href = 'index.html';
-        return;
+document.addEventListener('DOMContentLoaded', async () => {
+  await dataManager.initializeData();
+  renderDashboard();
+
+  document.getElementById('searchInput')?.addEventListener('input', renderDashboard);
+  document.getElementById('categoryFilter')?.addEventListener('change', renderDashboard);
+  document.getElementById('statusFilter')?.addEventListener('change', renderDashboard);
+  document.getElementById('minPriceInput')?.addEventListener('input', renderDashboard);
+  document.getElementById('maxPriceInput')?.addEventListener('input', renderDashboard);
+
+  document.getElementById('resetFiltersBtn')?.addEventListener('click', () => {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('categoryFilter').value = 'ALL';
+    document.getElementById('statusFilter').value = 'ALL';
+    document.getElementById('minPriceInput').value = '';
+    document.getElementById('maxPriceInput').value = '';
+    renderDashboard();
+  });
+
+  document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
+    const currentData = getFilteredData();
+    dataManager.exportToCSV(currentData);
+  });
+
+  setInterval(() => {
+    const updatedProduct = dataManager.simulateRealTimeUpdate();
+    if (updatedProduct) {
+      renderDashboard();
+      console.log(`[Real-Time Update] ${updatedProduct.name} quantity updated to ${updatedProduct.quantity}`);
     }
-
-    const username = localStorage.getItem('user') || 'Student';
-
-    updateGreeting(username);
-    updateStatistics();
-    populateActivityTable();
-    setUpLogout();
-
-    const userNameSpan = document.getElementById('userName');
-    if (userNameSpan) {
-        userNameSpan.textContent = username;
-    }
+  }, 10000);
 });
 
-function updateGreeting(username) {
-    const greetingElement = document.getElementById('greeting');
-    if (!greetingElement) return;
+function getFilteredData() {
+  const query = document.getElementById('searchInput')?.value || '';
+  const category = document.getElementById('categoryFilter')?.value || 'ALL';
+  const status = document.getElementById('statusFilter')?.value || 'ALL';
+  const minPrice = parseFloat(document.getElementById('minPriceInput')?.value) || 0;
+  const maxPrice = parseFloat(document.getElementById('maxPriceInput')?.value) || Infinity;
 
-    const hour = new Date().getHours();
-    let timeOfDay = '';
+  return dataManager.filterProducts(query, category, status, minPrice, maxPrice);
+}
 
-    if (hour >= 5 && hour < 12) {
-        timeOfDay = 'Good Morning';
-    } else if (hour >= 12 && hour < 17) {
-        timeOfDay = 'Good Afternoon';
-    } else if (hour >= 17 && hour < 21) {
-        timeOfDay = 'Good Evening';
+function renderDashboard() {
+  const filteredProducts = getFilteredData();
+  const allProducts = dataManager.getProducts();
+
+  const tbody = document.getElementById('inventoryTableBody');
+  if (tbody) {
+    if (filteredProducts.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No matching products found.</td></tr>`;
     } else {
-        timeOfDay = 'Good Night';
-    }
+      tbody.innerHTML = filteredProducts.map(p => {
+        let badgeClass = 'bg-success';
+        if (p.status === 'Low Stock') badgeClass = 'bg-warning text-dark';
+        if (p.status === 'Out of Stock') badgeClass = 'bg-danger';
 
-    greetingElement.textContent = `${timeOfDay}, ${username}!`;
-}
-
-function updateStatistics() {
-    const stats = [
-        { title: 'Overall GPA', value: '3.85', color: 'text-success' },
-        { title: 'Active Courses', value: '6 Subjects', color: 'text-primary' },
-        { title: 'Pending Tasks', value: '3 Due', color: 'text-warning' },
-        { title: 'Attendance Rate', value: '96%', color: 'text-info' }
-    ];
-
-    stats.forEach((stat, index) => {
-        const titleElement = document.getElementById(`stat${index + 1}-title`);
-        const valueElement = document.getElementById(`stat${index + 1}-value`);
-
-        if (titleElement) titleElement.textContent = stat.title;
-        if (valueElement) {
-            valueElement.textContent = stat.value;
-            valueElement.className = `card-text fw-bold ${stat.color}`;
-        }
-    });
-}
-
-function populateActivityTable() {
-    const tableBody = document.getElementById('activityTableBody');
-    if (!tableBody) return;
-
-    const activities = [
-        { date: '2026-08-18 14:30', activity: 'Submitted Lab Exercise 2 (Web Dev)', status: 'success', text: 'Graded (100%)' },
-        { date: '2026-08-17 11:00', activity: 'Quiz 1: Database Management Systems', status: 'info', text: 'Graded (92%)' },
-        { date: '2026-08-16 09:15', activity: 'Submitted Proposal: Software Engineering', status: 'warning', text: 'Under Review' },
-        { date: '2026-08-15 23:59', activity: 'Assignment 3: Data Structures', status: 'danger', text: 'Late Submission' },
-        { date: '2026-08-14 10:00', activity: 'Midterm Exam: Network Administration', status: 'success', text: 'Completed' }
-    ];
-
-    tableBody.innerHTML = '';
-
-    activities.forEach(item => {
-        const row = document.createElement('tr');
-
-        let badgeClass = 'bg-secondary';
-        if (item.status === 'success') badgeClass = 'bg-success';
-        else if (item.status === 'warning') badgeClass = 'bg-warning text-dark';
-        else if (item.status === 'danger') badgeClass = 'bg-danger';
-        else if (item.status === 'info') badgeClass = 'bg-info text-dark';
-
-        row.innerHTML = `
-            <td>${item.date}</td>
-            <td>${item.activity}</td>
-            <td><span class="badge ${badgeClass}">${item.text}</span></td>
+        return `
+          <tr>
+            <td>${p.id}</td>
+            <td class="fw-bold">${p.name}</td>
+            <td><code>${p.sku}</code></td>
+            <td>${p.category}</td>
+            <td>₱${p.price.toFixed(2)}</td>
+            <td>${p.quantity}</td>
+            <td><span class="badge ${badgeClass}">${p.status}</span></td>
+          </tr>
         `;
-
-        tableBody.appendChild(row);
-    });
-}
-
-function setUpLogout() {
-    const logoutBtn = document.getElementById('logoutBtn');
-    const logoutLink = document.getElementById('logoutLink');
-
-    function performLogout(e) {
-        e.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('user');
-        window.location.href = 'index.html';
+      }).join('');
     }
+  }
 
-    if (logoutBtn) logoutBtn.addEventListener('click', performLogout);
-    if (logoutLink) logoutLink.addEventListener('click', performLogout);
+  const lowStockCount = allProducts.filter(p => p.status === 'Low Stock').length;
+  const outOfStockCount = allProducts.filter(p => p.status === 'Out of Stock').length;
+  const totalValue = allProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+
+  document.getElementById('totalProductsCount').textContent = allProducts.length;
+  document.getElementById('lowStockCount').textContent = lowStockCount;
+  document.getElementById('outOfStockCount').textContent = outOfStockCount;
+  document.getElementById('totalInventoryValue').textContent = `₱${totalValue.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+
+  const alertBanner = document.getElementById('alertBanner');
+  if (alertBanner) {
+    if (lowStockCount > 0 || outOfStockCount > 0) {
+      alertBanner.classList.remove('d-none');
+    } else {
+      alertBanner.classList.add('d-none');
+    }
+  }
+
+  const categories = ['Electronics', 'Furniture', 'Stationery'];
+  const categoryValues = categories.map(cat => {
+    return allProducts
+      .filter(p => p.category === cat)
+      .reduce((sum, p) => sum + (p.price * p.quantity), 0);
+  });
+
+  const inStock = allProducts.filter(p => p.status === 'In Stock').length;
+  const lowStock = lowStockCount;
+  const outOfStock = outOfStockCount;
+
+  chartManager.initInventoryBarChart('inventoryBarChart', categories, categoryValues);
+  chartManager.initStatusDoughnutChart('statusDoughnutChart', [inStock, lowStock, outOfStock]);
+  chartManager.initTopProductsChart('topProductsChart', allProducts);
 }
