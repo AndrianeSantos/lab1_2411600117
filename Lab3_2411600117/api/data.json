@@ -1,0 +1,8 @@
+[
+    { "id": 1, "name": "Web Development 2", "sku": "CS-101", "category": "Core CS", "price": 3, "stock": 95, "reorderLevel": 75, "status": "in stock" },
+    { "id": 2, "name": "Database Systems", "sku": "CS-102", "category": "Core CS", "price": 3, "stock": 72, "reorderLevel": 75, "status": "low stock" },
+    { "id": 3, "name": "Data Structures", "sku": "CS-103", "category": "Core CS", "price": 4, "stock": 88, "reorderLevel": 75, "status": "in stock" },
+    { "id": 4, "name": "Software Engineering", "sku": "CS-104", "category": "Elective", "price": 3, "stock": 60, "reorderLevel": 75, "status": "out of stock" },
+    { "id": 5, "name": "Network Admin", "sku": "CS-105", "category": "Networking", "price": 3, "stock": 74, "reorderLevel": 75, "status": "low stock" },
+    { "id": 6, "name": "Ethics in IT", "sku": "GE-101", "category": "General Ed", "price": 3, "stock": 92, "reorderLevel": 75, "status": "in stock" }
+]

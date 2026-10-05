@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Portal - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+
+    <header class="bg-gradient-primary d-flex justify-content-between align-items-center px-4 py-3 shadow-sm">
+        <span class="text-white fw-bold fs-5">Student Grade Portal</span>
+        <div class="text-white small">
+            Welcome, <span id="userName" class="fw-bold">admin</span>
+        </div>
+    </header>
+
+    <div class="container-fluid my-4">
+        <div class="row">
+            
+            <nav class="col-md-3 col-lg-2 sidebar rounded p-3 mb-4 mb-md-0 ms-md-3 bg-white shadow-sm">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-book me-2"></i> Enrolled Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-journal-check me-2"></i> Assignments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-file-earmark-text me-2"></i> Grades & Transcript</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-danger fw-bold" href="#" id="logoutLink"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="col-md-8 col-lg-9 px-md-4">
+                
+                <div id="alertSection" class="mb-3">
+                    <div class="alert alert-warning alert-dismissible fade show mb-0 py-2 small" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Academic Alert:</strong> You have 1 course(s) near passing threshold and 0 failing.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 id="greeting" class="fw-bold text-primary-custom mb-0">Good Afternoon, admin!</h4>
+                    <button id="exportCsvBtn" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-spreadsheet me-1"></i> Export Grades CSV</button>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card border-success-custom p-3 bg-white shadow-sm">
+                            <span class="text-muted small fw-bold">OVERALL WEIGHTED GRADE</span>
+                            <h3 class="fw-bold text-success mb-0 mt-1" id="stat-total-value">88.5%</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card border-primary-custom p-3 bg-white shadow-sm">
+                            <span class="text-muted small fw-bold">ENROLLED SUBJECTS</span>
+                            <h3 class="fw-bold text-primary-custom mb-0 mt-1" id="stat-total-products">8</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card border-accent p-3 bg-white shadow-sm">
+                            <span class="text-muted small fw-bold">ACTIVE CATEGORIES</span>
+                            <h3 class="fw-bold text-warning mb-0 mt-1" id="stat-categories">5</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card border-primary-custom p-3 bg-white shadow-sm">
+                            <span class="text-muted small fw-bold">ACADEMIC HEALTH RATE</span>
+                            <h3 class="fw-bold text-info mb-0 mt-1" id="stat-health">92%</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card stat-card shadow-hover p-3 mb-4 bg-white">
+                    <h6 class="fw-bold text-muted small mb-2">General Academic Performance Overview per Category</h6>
+                    <div style="position: relative; height: 240px; width: 100%;">
+                        <canvas id="generalLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white border rounded shadow-sm">
+                            <span class="text-muted small fw-bold">WARNING SUBJECTS</span>
+                            <h4 class="fw-bold text-warning mb-0" id="warningCount">1</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-white border rounded shadow-sm">
+                            <span class="text-muted small fw-bold">FAILING SUBJECTS</span>
+                            <h4 class="fw-bold text-danger mb-0" id="failingCount">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-4">
+                        <div class="card stat-card shadow-hover p-3 h-100 bg-white">
+                            <h6 class="fw-bold text-muted small mb-3">Grade Value by Category</h6>
+                            <div style="position: relative; height: 200px; width: 100%;">
+                                <canvas id="categoryValueChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card stat-card shadow-hover p-3 h-100 bg-white">
+                            <h6 class="fw-bold text-muted small mb-3">Academic Standing Distribution</h6>
+                            <div style="position: relative; height: 200px; width: 100%;">
+                                <canvas id="stockStatusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card stat-card shadow-hover p-3 h-100 bg-white">
+                            <h6 class="fw-bold text-muted small mb-3">Top Performing Courses</h6>
+                            <div style="position: relative; height: 200px; width: 100%;">
+                                <canvas id="topProductsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card stat-card shadow-hover mb-4 bg-white">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-bold text-dark">Recent Academic Activity Log</h6>
+                        <span id="realtimeStatus" class="badge bg-success small">Live Sync Active</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 small">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Subject / Task Name</th>
+                                        <th>Action / Change</th>
+                                        <th>Updated Grade/Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card stat-card shadow-hover mb-4 bg-white">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h6 class="mb-0 fw-bold">Student Enrolled Subjects & Records</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-3">
+                                <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search subject or code...">
+                            </div>
+                            <div class="col-md-2">
+                                <select id="categoryFilter" class="form-select form-select-sm">
+                                    <option value="ALL">All Categories</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="statusFilter" class="form-select form-select-sm">
+                                    <option value="ALL">All Standings</option>
+                                    <option value="in stock">Passing</option>
+                                    <option value="low stock">Warning</option>
+                                    <option value="out of stock">Failing</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" id="minPriceInput" class="form-control form-control-sm" placeholder="Min Units">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" id="maxPriceInput" class="form-control form-control-sm" placeholder="Max Units">
+                            </div>
+                            <div class="col-md-1 d-grid">
+                                <button id="resetFilterBtn" class="btn btn-outline-secondary btn-sm">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 small">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Subject Name</th>
+                                        <th>Code (SKU)</th>
+                                        <th>Category</th>
+                                        <th>Price/Fee</th>
+                                        <th>Units / Hours</th>
+                                        <th>Standing Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="js/dataManager.js"></script>
+    <script src="js/chartManager.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

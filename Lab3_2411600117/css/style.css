@@ -1,0 +1,192 @@
+:root {
+  --bs-primary: #0d6efd;
+  --bs-primary-rgb: 13, 110, 253;
+  --bs-secondary: #0b5ed7;
+  --bs-secondary-rgb: 11, 94, 215;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+
+  /* Modern Royal Blue Theme */
+  --theme-primary: #0d6efd;
+  --theme-secondary: #0b5ed7;
+  --theme-accent: #ffc107;
+  --theme-background: #f8f9fa;
+  --theme-light-accent: #e7f1ff;
+  --theme-text: #212529;
+}
+
+body {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body.login-page {
+  background-color: #0d6efd !important;
+  min-height: 100vh;
+}
+
+.login-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-card {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+  width: 100% !important;
+  max-width: 400px !important;
+  background-color: #ffffff;
+}
+
+.login-card .card-header {
+  background-color: #0d6efd !important;
+  border-bottom: none !important;
+}
+
+.login-card .form-control {
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.login-card .btn-primary {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+.login-card .btn-primary:hover {
+  background-color: #0b5ed7 !important;
+  border-color: #0a58ca !important;
+}
+
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar .nav-link {
+  color: var(--theme-text);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--theme-light-accent);
+  color: var(--theme-primary);
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--theme-primary);
+  color: #ffffff;
+}
+
+.sidebar .nav-link.text-danger:hover {
+  background-color: #f8d7da;
+  color: #dc3545 !important;
+}
+
+.stat-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card .card-body {
+  padding: 1.5rem;
+}
+
+.stat-card .card-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .card-text {
+  font-size: 1.8rem;
+  margin-bottom: 0;
+}
+
+.shadow-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-hover:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.border-accent {
+  border-left: 4px solid var(--theme-accent);
+}
+
+.border-primary-custom {
+  border-left: 4px solid var(--theme-primary);
+}
+
+.border-success-custom {
+  border-left: 4px solid var(--bs-success);
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+}
+
+.text-accent {
+  color: var(--theme-accent);
+}
+
+.text-primary-custom {
+  color: var(--theme-primary);
+}
+
+.btn-primary {
+  background-color: var(--theme-primary);
+  border-color: var(--theme-primary);
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 240px;
+  width: 100%;
+}
+
+@keyframes pulseGlow {
+    0% { border-color: #0d6efd; box-shadow: 0 0 10px rgba(13, 110, 253, 0.5); }
+    100% { border-color: #ced4da; box-shadow: none; }
+}
+
+.chart-card-refresh {
+    animation: pulseGlow 0.8s ease-in-out;
+}
+
+/* Limitahan ang maximum width ng buong dashboard container para hindi umabot hanggang dulo ng napakalawak na monitor */
+.main-content {
+    max-width: 1440px;
+    margin: 0 auto;
+}
